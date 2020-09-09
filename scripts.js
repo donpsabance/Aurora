@@ -4,6 +4,8 @@ $(document).ready(function () {
 
 function initializeAutoComplete(){
 
-	// var input = document.getElementById('input');
-	// var autoComplete = new google.maps.places.Autocomplete(input);
+	var options = {types: ['(cities']};
+	var input = document.getElementById('input');
+	var autoComplete = new google.maps.places.Autocomplete(input);
 }
+google.maps.event.addDomListener(window, 'load', initializeAutoComplete);

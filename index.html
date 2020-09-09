@@ -4,29 +4,24 @@
 		<title>Aurora</title>
 		<link rel="stylesheet" type="text/css" href="styles.css">
 
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU2t8ce0Pu76GO3Pet5oSlAEYXRIbMEYI&libraries=places"></script>
 		<script type="text/javascript" src="scripts.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU2t8ce0Pu76GO3Pet5oSlAEYXRIbMEYI&libraries=places"></script>
 		
 	</head>
 	<body>
 
-		<div class="title">
-			<h1>Aurora</h1>
+		<div class="center">
+			<div class="title">
+				<h1>Aurora</h1>
+				<p>A simple approach to preparing for the weather today!</p>
+			</div>
+
+			<div class="location_div"> 
+				<form class="location_form">
+					<input type="text" id="input" name="location_input" class="location_input" placeholder="Vancouver, BC">
+				</form>
+			</div>
 		</div>
-
-		<div class="location_div"> 
-			<form class="location_form">
-				<input type="text" id="input" name="location_input" class="location_input" placeholder="Vancouver, BC">
-			</form>
-		</div>
-
-		<script type="text/javascript">
-			
-				var input = document.getElementById('input');
-	var autoComplete = new google.maps.places.Autocomplete(input);
-	
-		</script>
-
 
 		<div class="video">
 			<video autoplay muted loop id="background">

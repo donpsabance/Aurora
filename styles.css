@@ -1,7 +1,17 @@
 #background{ object-fit: fill; z-index: 0;}
 .video{ height: 100%; width: 100%; overflow: hidden;}
-.title{ position: absolute; top: 5%; left: 5%;}
-.title h1{ font-size: 50px;}
+.center {
+	
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	position: absolute;
+}
+
+
+.title{ position: absolute; top: 37%; left: 35%; height: 10%; }
+.title h1{ font-size: 50px; }
+.title h1, .title p { margin-bottom: 0px; margin-top: 0px;}
 
 .location_div { height: 100%; width: 100%; position: absolute;}
 .location_form{
