@@ -19,7 +19,7 @@ function getWeatherData(){
 	// 	e.preventDefault();
 
 		var request = new XMLHttpRequest();
-		var url_1 = "http://api.openweathermap.org/data/2.5/weather?q=";
+		var url_1 = "https://api.openweathermap.org/data/2.5/weather?q=";
 		var url_3 = "&APPID=9a8d381120a94168102f65b0b3849164&units=metric";
 		var temp1 = url_1.concat(document.getElementById('input').value);
 		var request_url = temp1.concat(url_3);
