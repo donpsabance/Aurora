@@ -1,3 +1,8 @@
+//GLOBAL VARIABLES
+var week_temp = [];
+var week_sunset = [];
+var loaded_weather_info = false;
+
 $(document).ready(function () {
    google.maps.event.addDomListener(window, 'load', initializeAutoComplete);
    document.getElementById('location_form_id').addEventListener('submit', function(e) {
@@ -14,42 +19,112 @@ function initializeAutoComplete(){
 }
 
 function getWeatherData(){
-	// document.getElementById('location_form_id').addEventListener('submit', function(e) {
 
-	// 	e.preventDefault();
+	loaded_weather_info = false;
+	var weather_req = new XMLHttpRequest();
+	var google_req = new XMLHttpRequest();
 
-		var request = new XMLHttpRequest();
-		var url_1 = "https://api.openweathermap.org/data/2.5/weather?q=";
-		var url_3 = "&APPID=9a8d381120a94168102f65b0b3849164&units=metric";
-		var temp1 = url_1.concat(document.getElementById('input').value);
-		var request_url = temp1.concat(url_3);
+	var google_req = new XMLHttpRequest();
+	var geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+	var geo_loc = document.getElementById('input').value;
+	var google_api_key = "&key=AIzaSyAU2t8ce0Pu76GO3Pet5oSlAEYXRIbMEYI";
+	var geocode_req_url = geocode_url + geo_loc + google_api_key;
 
-		request.onreadystatechange = function(){
-			 if(this.readyState == 4 && this.status == 200){
+	const promise = new Promise(function(resolve, reject){
+
+		google_req.open('GET', geocode_req_url, true);
+		google_req.onreadystatechange = function(){
+		 	if(this.readyState == 4 && this.status == 200){
 
 				var data = JSON.parse(this.response);
-				var temp = data.main.temp;
-				var sunset = data.sys.sunset;
-
-				var date = new Date(sunset * 1000);
-				var hours = date.getHours();
-				var minutes = date.getMinutes();
-				var time = " " + hours + ":" + minutes;
-
-
-
-				document.getElementById("weather_temp").innerHTML = temp;
-				document.getElementById("weather_sunset").innerHTML = time;
+				resolve([data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
 			}
 		};
+	});
 
-		request.open('GET', request_url, true);
-		request.send();
-	// }, false);
+	promise.then((value) => {
+
+		var div = document.getElementById('info_div');
+		div.style.display = "none";
+
+		var lat = value[0];
+		var lng = value[1];
+
+	 	week_temp = [];
+		week_sunset = [];
+
+		url_1 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&exclude=hourly,minutely";
+		url_2 = "&APPID=9a8d381120a94168102f65b0b3849164&units=metric";
+		request_url = url_1.concat(url_2);
+
+		weather_req.open('GET', request_url, true);
+		weather_req.onreadystatechange = function(){
+			 if(this.readyState == 4 && this.status == 200){
+
+			 	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+			 	var buttons = ["day_1", "day_2", "day_3", "day_4", "day_5", "day_6", "day_7", "day_8"];
+
+				var data = JSON.parse(this.response);
+				var temp = data.current.temp;
+				var sunset = data.current.sunset;
+
+				document.getElementById([buttons[0]]).innerHTML = "Today";
+				week_temp.push(temp);
+				week_sunset.push(sunset);
+
+			 	for(i = 1; i < 8; i++){
+
+			 		var date = new Date(data.daily[i].dt * 1000);
+			 		document.getElementById([buttons[i]]).innerHTML = days[date.getDay()];
+
+			 		week_temp.push(data.daily[i].temp.day);
+			 		week_sunset.push(data.daily[i].sunset);
+			 		
+			 	}
+			} else {
+				// var div = document.getElementById('info_div');
+				// div.style.display = "none";
+
+				// loaded_weather_info = false;
+			}
+		};
+		weather_req.send();
+	});
+
+	google_req.send();	
+	loaded_weather_info = true;
 }
 
-// function changeBackground(videoId, videoSrc){
+function displayWeather(day){
 
-// 	var vid = document.getElementById(videoId).src = videoSrc;
-// 	vid.load();
-// }
+	if(loaded_weather_info){
+		var div = document.getElementById('info_div');
+		div.style.display = "flex";
+
+		document.getElementById("weather_temp").innerHTML = week_temp[day];
+		document.getElementById("weather_sunset").innerHTML = epochToHumanReadable(week_sunset[day]);
+	}	
+}
+
+function hideWeather(){
+
+	if(document.getElementById('input').value.trim() == ''){
+
+		var div = document.getElementById('info_div');
+		div.style.display = "none";
+
+		loaded_weather_info = false;
+
+	}	
+}
+
+function epochToHumanReadable(epoch){
+
+	var date = new Date(epoch * 1000);
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var time = " " + hours + ":" + minutes;
+
+	return time;
+}
+

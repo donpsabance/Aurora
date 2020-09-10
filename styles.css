@@ -1,6 +1,22 @@
 #background{ object-fit: fill; z-index: 0;}
 .video{ height: 100%; width: 100%; overflow: hidden;}
-.icon{ max-height: 50%; max-width: 50%; }
+.icon{ max-height: 40%; max-width: 40%; }
+
+button {
+
+	background-color: #f2f2f2;
+	padding: 10px;
+	border-radius: 3px;
+	border: none;
+}
+
+.day_selector{ 
+
+	order: 3; 	
+	display: flex; 
+	justify-content: center;
+
+}
 
 .center {
 
@@ -56,16 +72,18 @@
 
 .info{
 
-	width: 35%;
-	height: 80px;
+	width: 20%;
+	height: 200px;
 
-	order: 2;
+	order: 4;
 
-	padding: 10px;
+	/*padding: 10px;*/
 	margin: 0 auto;
 
 
-	display: flex;
+	/*display: flex;*/
+	/*flex-direction: column;*/
+	/*border: 1px solid red;*/
 
 }
 

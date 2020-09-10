@@ -22,17 +22,28 @@
 
 			<div class="location_div"> 
 				<form class="location_form" id="location_form_id">
-					<input type="text" id="input" name="location_input" class="location_input" placeholder="Vancouver, BC">
+					<input type="text" id="input" name="location_input" class="location_input" onchange="hideWeather()" placeholder="Vancouver, BC">
 				</form>
 			</div>
-			<div class="info">
+
+			<div class="day_selector">
+				<button id="day_1" onclick="displayWeather(0)"></button>
+				<button id="day_2" onclick="displayWeather(1)"></button>
+				<button id="day_3" onclick="displayWeather(2)"></button>
+				<button id="day_4" onclick="displayWeather(3)"></button>
+				<button id="day_5" onclick="displayWeather(4)"></button>
+				<button id="day_6" onclick="displayWeather(5)"></button>
+				<button id="day_7" onclick="displayWeather(6)"></button>
+				<button id="day_8" onclick="displayWeather(7)"></button>
+			</div>
+			<div class="info" style="display: none" id="info_div">
 				<div class="info_group">
 					<img class="icon" src="icons/temperature.png">
 					<p id="weather_temp"></p>
 				</div>
 
 				<div class="info_group">
-					<img class="icon" src="icons/sun.png">
+					<img class="icon" src="icons/sunset.png">
 					<p id="weather_sunset"></p>
 				</div>
 			</div>
