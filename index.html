@@ -8,6 +8,9 @@
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU2t8ce0Pu76GO3Pet5oSlAEYXRIbMEYI&libraries=places"></script>
 		<script type="text/javascript" src="scripts.js"></script>
 		
+  </script>
+
+
 	</head>
 	<body>
 
@@ -18,19 +21,27 @@
 			</div>
 
 			<div class="location_div"> 
-				<form class="location_form">
+				<form class="location_form" id="location_form_id">
 					<input type="text" id="input" name="location_input" class="location_input" placeholder="Vancouver, BC">
 				</form>
+			</div>
+			<div class="info">
+				<div class="info_group">
+					<img class="icon" src="icons/temperature.png">
+					<p id="weather_temp"></p>
+				</div>
+
+				<div class="info_group">
+					<img class="icon" src="icons/sun.png">
+					<p id="weather_sunset"></p>
+				</div>
 			</div>
 		</div>
 
 		<div class="video">
 			<video autoplay muted loop id="background">
-		  		<source src="sky_loop.mp4" type="video/mp4">
+		  		<source src="videos/sky_loop.mp4" type="video/mp4">
 			</video>
 		</div>
-
-
-
 	</body>
 </html>
