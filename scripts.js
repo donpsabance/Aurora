@@ -44,7 +44,7 @@ function getWeatherData(){
 		};
 
 		request.open('GET', request_url, true);
-		// request.send(null);
+		request.send();
 	// }, false);
 }
 
