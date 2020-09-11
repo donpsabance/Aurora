@@ -1,4 +1,5 @@
 //GLOBAL VARIABLES
+var week_type = [];
 var week_temp = [];
 var week_sunset = [];
 var loaded_weather_info = false;
@@ -37,7 +38,13 @@ function getWeatherData(){
 		 	if(this.readyState == 4 && this.status == 200){
 
 				var data = JSON.parse(this.response);
-				resolve([data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
+
+				if([data.results[0].geometry.location.lat] != null && [data.results[0].geometry.location.lng] != null){
+					resolve([data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
+				} else {
+					hideWeather();
+					loaded_weather_info = false;
+				}
 			}
 		};
 	});
@@ -50,6 +57,7 @@ function getWeatherData(){
 		var lat = value[0];
 		var lng = value[1];
 
+		week_type = [];
 	 	week_temp = [];
 		week_sunset = [];
 
@@ -61,31 +69,25 @@ function getWeatherData(){
 		weather_req.onreadystatechange = function(){
 			 if(this.readyState == 4 && this.status == 200){
 
+			 	var data = JSON.parse(this.response);
 			 	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 			 	var buttons = ["day_1", "day_2", "day_3", "day_4", "day_5", "day_6", "day_7", "day_8"];
-
-				var data = JSON.parse(this.response);
-				var temp = data.current.temp;
-				var sunset = data.current.sunset;
-
+		
 				document.getElementById([buttons[0]]).innerHTML = "Today";
-				week_temp.push(temp);
-				week_sunset.push(sunset);
+				week_type.push(data.current.weather[0].main);
+				week_temp.push(data.current.temp);
+				week_sunset.push(data.current.sunset);
 
 			 	for(i = 1; i < 8; i++){
 
 			 		var date = new Date(data.daily[i].dt * 1000);
 			 		document.getElementById([buttons[i]]).innerHTML = days[date.getDay()];
 
+			 		week_type.push(data.daily[i].weather[0].main);
 			 		week_temp.push(data.daily[i].temp.day);
 			 		week_sunset.push(data.daily[i].sunset);
 			 		
 			 	}
-			} else {
-				// var div = document.getElementById('info_div');
-				// div.style.display = "none";
-
-				// loaded_weather_info = false;
 			}
 		};
 		weather_req.send();
@@ -101,6 +103,7 @@ function displayWeather(day){
 		var div = document.getElementById('info_div');
 		div.style.display = "flex";
 
+		document.getElementById("weather_type").innerHTML = week_type[day];
 		document.getElementById("weather_temp").innerHTML = week_temp[day];
 		document.getElementById("weather_sunset").innerHTML = epochToHumanReadable(week_sunset[day]);
 	}	
@@ -114,8 +117,18 @@ function hideWeather(){
 		div.style.display = "none";
 
 		loaded_weather_info = false;
+		hideButtons();
 
 	}	
+}
+
+function hideButtons(){
+
+	var buttons = ["day_1", "day_2", "day_3", "day_4", "day_5", "day_6", "day_7", "day_8"];
+	for(i = 0; i < 8; i++){
+		document.getElementById(buttons[i]).innerHTML = '';
+	}
+
 }
 
 function epochToHumanReadable(epoch){

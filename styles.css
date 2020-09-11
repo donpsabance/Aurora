@@ -2,6 +2,10 @@
 .video{ height: 100%; width: 100%; overflow: hidden;}
 .icon{ max-height: 40%; max-width: 40%; }
 
+#weather_type{
+	font-style: italic;
+}
+
 button {
 
 	background-color: #f2f2f2;
@@ -15,7 +19,7 @@ button {
 	order: 3; 	
 	display: flex; 
 	justify-content: center;
-
+	
 }
 
 .center {
@@ -72,18 +76,11 @@ button {
 
 .info{
 
-	width: 20%;
-	height: 200px;
-
 	order: 4;
-
-	/*padding: 10px;*/
+	height: 130px;
+	width: 20%;
 	margin: 0 auto;
-
-
-	/*display: flex;*/
-	/*flex-direction: column;*/
-	/*border: 1px solid red;*/
+	flex-wrap: wrap;
 
 }
 
@@ -92,10 +89,21 @@ button {
 
 	display: flex;
 	height: 100%;
-	width: 100%;
+	width: 49%;
 	justify-content: center;
 	align-items: center;
+	flex-shrink: 2;
+	/*border: 1px solid red;*/
 
+}
+
+.info_group_header{
+
+	flex-basis: 100%;
+	height: 20%;
+	/*width: 100%;*/
+	text-align: center;
+	/*border: 1px solid red;*/
 }
 
 body { margin: 0; height: 100%; overflow-x: hidden; }
