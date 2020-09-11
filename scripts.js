@@ -7,6 +7,9 @@ var loaded_weather_info = false;
 
 $(document).ready(function () {
 
+	setInterval(initializeClock, 1000);
+
+	// initializeVideo();
 	hideWeather();
    	google.maps.event.addDomListener(window, 'load', initializeAutoComplete);
    	document.getElementById('location_form_id').addEventListener('submit', function(e) {
@@ -15,11 +18,32 @@ $(document).ready(function () {
    	}, false);
 });
 
+function initializeClock(){
+	var date = new Date();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+
+	if(minutes < 10) minutes = "0" + minutes;
+	if(seconds < 10) seconds = "0" + seconds;
+
+	var clock = hours + ":" + minutes + ":" + seconds;
+	document.getElementById("clock_time").innerHTML = clock;
+}
+
 function initializeAutoComplete(){
 
 	// var options = {types: ['(cities']};
 	var input = document.getElementById('input');
 	var autoComplete = new google.maps.places.Autocomplete(input);
+}
+
+function initializeVideo(){
+
+	var video = document.getElementById("background");
+	var video_list = ["videos/clouds.mp4", "videos/falls.mp4", "videos/sea.mp4"];
+	video.src = video_list[Math.floor(Math.random() * 4)];
+	video.load();
 }
 
 function getWeatherData(){
@@ -107,7 +131,7 @@ function displayWeather(day){
 		div.style.visibility = "initial";
 
 		document.getElementById("weather_type").innerHTML = week_type[day];
-		document.getElementById("weather_rain_chance").innerHTML = week_pop[day] + "%";
+		document.getElementById("weather_rain_chance").innerHTML = Math.round(week_pop[day] * 10) / 10+ "%";
 		document.getElementById("weather_temp").innerHTML = week_temp[day] + "℃";
 		document.getElementById("weather_sunset").innerHTML = epochToHumanReadable(week_sunset[day]);
 
