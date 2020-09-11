@@ -1,12 +1,15 @@
 //GLOBAL VARIABLES
 var week_type = [];
 var week_temp = [];
+var week_pop = [];
 var week_sunset = [];
 var loaded_weather_info = false;
 
 $(document).ready(function () {
-   google.maps.event.addDomListener(window, 'load', initializeAutoComplete);
-   document.getElementById('location_form_id').addEventListener('submit', function(e) {
+
+	hideWeather();
+   	google.maps.event.addDomListener(window, 'load', initializeAutoComplete);
+   	document.getElementById('location_form_id').addEventListener('submit', function(e) {
    		e.preventDefault();
    		getWeatherData();
    	}, false);
@@ -51,14 +54,12 @@ function getWeatherData(){
 
 	promise.then((value) => {
 
-		var div = document.getElementById('info_div');
-		div.style.display = "none";
-
 		var lat = value[0];
 		var lng = value[1];
 
 		week_type = [];
 	 	week_temp = [];
+	 	week_pop = [];
 		week_sunset = [];
 
 		url_1 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&exclude=hourly,minutely";
@@ -76,6 +77,7 @@ function getWeatherData(){
 				document.getElementById([buttons[0]]).innerHTML = "Today";
 				week_type.push(data.current.weather[0].main);
 				week_temp.push(data.current.temp);
+				week_pop.push(data.daily[0].pop * 100);
 				week_sunset.push(data.current.sunset);
 
 			 	for(i = 1; i < 8; i++){
@@ -85,6 +87,7 @@ function getWeatherData(){
 
 			 		week_type.push(data.daily[i].weather[0].main);
 			 		week_temp.push(data.daily[i].temp.day);
+			 		week_pop.push(data.daily[i].pop * 100);
 			 		week_sunset.push(data.daily[i].sunset);
 			 		
 			 	}
@@ -101,9 +104,10 @@ function displayWeather(day){
 
 	if(loaded_weather_info){
 		var div = document.getElementById('info_div');
-		div.style.display = "flex";
+		div.style.visibility = "initial";
 
 		document.getElementById("weather_type").innerHTML = week_type[day];
+		document.getElementById("weather_rain_chance").innerHTML = week_pop[day] + "%";
 		document.getElementById("weather_temp").innerHTML = week_temp[day] + "℃";
 		document.getElementById("weather_sunset").innerHTML = epochToHumanReadable(week_sunset[day]);
 
@@ -115,7 +119,7 @@ function hideWeather(){
 	if(document.getElementById('input').value.trim() == ''){
 
 		var div = document.getElementById('info_div');
-		div.style.display = "none";
+		div.style.visibility = "hidden";
 
 		loaded_weather_info = false;
 		hideButtons();
