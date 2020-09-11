@@ -104,8 +104,9 @@ function displayWeather(day){
 		div.style.display = "flex";
 
 		document.getElementById("weather_type").innerHTML = week_type[day];
-		document.getElementById("weather_temp").innerHTML = week_temp[day];
+		document.getElementById("weather_temp").innerHTML = week_temp[day] + "℃";
 		document.getElementById("weather_sunset").innerHTML = epochToHumanReadable(week_sunset[day]);
+
 	}	
 }
 
