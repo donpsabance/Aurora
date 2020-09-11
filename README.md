@@ -1,3 +1,3 @@
 # Aurora 
 
-A simple weather forecast site that uses Google's Places API and Open Weather API to display the current weather. 
+![Image](https://github.com/donpsabance/Aurora/blob/master/Screen%20Shot%202020-09-11%20at%209.21.47%20AM.png)
