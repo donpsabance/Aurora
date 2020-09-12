@@ -7,9 +7,13 @@ var loaded_weather_info = false;
 
 $(document).ready(function () {
 
-	setInterval(initializeClock, 1000);
+	document.getElementById('input').onkeyup = function() {
+	  if (this.value.length === 0) {
+	    hideWeather();
+	  }
+	}
 
-	// initializeVideo();
+	setInterval(initializeClock, 1000);
 	hideWeather();
    	google.maps.event.addDomListener(window, 'load', initializeAutoComplete);
    	document.getElementById('location_form_id').addEventListener('submit', function(e) {
@@ -60,20 +64,24 @@ function getWeatherData(){
 
 	const promise = new Promise(function(resolve, reject){
 
-		google_req.open('GET', geocode_req_url, true);
-		google_req.onreadystatechange = function(){
-		 	if(this.readyState == 4 && this.status == 200){
+		if(geo_loc.trim() != ''){
 
-				var data = JSON.parse(this.response);
+			google_req.open('GET', geocode_req_url, true);
+			google_req.onreadystatechange = function(){
+			 	if(this.readyState == 4 && this.status == 200){
 
-				if([data.results[0].geometry.location.lat] != null && [data.results[0].geometry.location.lng] != null){
-					resolve([data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
-				} else {
-					hideWeather();
-					loaded_weather_info = false;
+					var data = JSON.parse(this.response);
+
+					if([data.results[0].geometry.location.lat] != null && [data.results[0].geometry.location.lng] != null){
+						resolve([data.results[0].geometry.location.lat, data.results[0].geometry.location.lng]);
+					} else {
+						hideWeather();
+						loaded_weather_info = false;
+					}
 				}
-			}
-		};
+			};
+			google_req.send();	
+		}
 	});
 
 	promise.then((value) => {
@@ -120,7 +128,6 @@ function getWeatherData(){
 		weather_req.send();
 	});
 
-	google_req.send();	
 	loaded_weather_info = true;
 }
 
@@ -148,7 +155,7 @@ function hideWeather(){
 		loaded_weather_info = false;
 		hideButtons();
 
-	}	
+	}
 }
 
 function hideButtons(){
