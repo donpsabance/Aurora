@@ -42,21 +42,12 @@ function initializeAutoComplete(){
 	var autoComplete = new google.maps.places.Autocomplete(input);
 }
 
-function initializeVideo(){
-
-	var video = document.getElementById("background");
-	var video_list = ["videos/clouds.mp4", "videos/falls.mp4", "videos/sea.mp4"];
-	video.src = video_list[Math.floor(Math.random() * 4)];
-	video.load();
-}
-
 function getWeatherData(){
 
 	loaded_weather_info = false;
 	var weather_req = new XMLHttpRequest();
 	var google_req = new XMLHttpRequest();
 
-	var google_req = new XMLHttpRequest();
 	var geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 	var geo_loc = document.getElementById('input').value;
 	var google_api_key = "&key=AIzaSyAU2t8ce0Pu76GO3Pet5oSlAEYXRIbMEYI";
